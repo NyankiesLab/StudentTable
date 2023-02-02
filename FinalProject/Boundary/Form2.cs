@@ -25,7 +25,7 @@ namespace FinalProject
 
         private void button3_Click(object sender, EventArgs e)
         {
-
+            //Form1 işlevi aynı
             var girilenDeger = textBox1.Text;
             try
             {
@@ -60,6 +60,7 @@ namespace FinalProject
 
         private void button1_Click(object sender, EventArgs e)
         {
+            //Öğrenci ekleme butonu
             List<string> data = new List<string>();
             try
             {
@@ -68,7 +69,7 @@ namespace FinalProject
                 data.Add(sq.selectInnerTable("distinct b.BolumID", "b.BolumIsim = '" + comboBox2.Text + "'").Rows[0].ItemArray.GetValue(0).ToString());
                 data.Add(dateTimePicker1.Text);
                 data.Add(sc.changeEnum(comboBox1.Text).ToString());
-                data.Add(sc.ortalamaGridHesaplama(textBox4.Text,textBox5.Text, textBox6.Text , textBox8.Text));
+                data.Add(sc.ortalamaGridHesaplama(sc.nullExp(textBox4.Text), sc.nullExp(textBox5.Text), sc.nullExp(textBox6.Text) , sc.nullExp(textBox8.Text)));
                 data.Add(sq.selectTable("*", "OgrenciBilgi").Rows.Count.ToString());
                 data.Add(textBox4.Text);
                 data.Add(textBox5.Text);
@@ -104,6 +105,7 @@ namespace FinalProject
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellMouseEventArgs e)
         {
+            //Tablodaki verilerin kutucuklara doldurulmasını sağlar.
             textBox2.ReadOnly = true;
             textBox3.ReadOnly = true;
             textBox2.Text = dataGridView1.SelectedRows[0].Cells[0].Value.ToString();
@@ -121,8 +123,9 @@ namespace FinalProject
         private void button2_Click(object sender, EventArgs e)
         {
             List<string> data = new List<string>();
-            try
+            //try
             {
+                //Güncelleme işlemi
                 data.Add(textBox2.Text);
                 data.Add(textBox3.Text);
                 data.Add(sq.selectInnerTable("distinct b.BolumID", "b.BolumIsim = '" + comboBox2.Text + "'").Rows[0].ItemArray.GetValue(0).ToString());
@@ -136,6 +139,42 @@ namespace FinalProject
                 data.Add(textBox8.Text);
                 sq.updateTable(data);
                 MessageBox.Show("Güncelleme işlemi başarılı.");
+                //Başlangıçtaki kutucuklar
+                string temp = textBox1.Text;
+                textBox1.Text = "tas";
+                textBox1.Text = temp;
+                textBox2.Text = "";
+                textBox3.Text = "";
+                comboBox2.Text = "";
+                dateTimePicker1.Value = DateTime.Now;
+                comboBox1.Text = "";
+                textBox7.Text = "";
+                textBox4.Text = "";
+                textBox5.Text = "";
+                textBox6.Text = "";
+                textBox8.Text = "";
+                textBox2.ReadOnly = false;
+                textBox3.ReadOnly = false;
+            }
+            /*catch (Exception)
+            {
+                MessageBox.Show("Güncellemek için kayıt seçiniz.");
+                textBox2.Text = "";
+                textBox3.Text = "";
+                comboBox2.Text = "";
+                dateTimePicker1.Value = DateTime.Now;
+                comboBox1.Text = "";
+                textBox7.Text = "";
+            }*/
+        }
+
+        private void button3_Click_1(object sender, EventArgs e)
+        {
+            //Öğrenciyi silmemize yarıyor
+            try
+            {
+                sq.deleteData(sq.selectTable("OgrenciNo", "OgrenciBilgi", "Ad = '" + textBox2.Text + "'").Rows[0].ItemArray.GetValue(0).ToString());
+                MessageBox.Show("Kayıt başarıyla silindi.");
                 string temp = textBox1.Text;
                 textBox1.Text = "tas";
                 textBox1.Text = temp;
@@ -154,28 +193,6 @@ namespace FinalProject
             }
             catch (Exception)
             {
-                MessageBox.Show("Güncellemek için kayıt seçiniz.");
-                textBox2.Text = "";
-                textBox3.Text = "";
-                comboBox2.Text = "";
-                dateTimePicker1.Value = DateTime.Now;
-                comboBox1.Text = "";
-                textBox7.Text = "";
-            }
-        }
-
-        private void button3_Click_1(object sender, EventArgs e)
-        {
-            try
-            {
-                sq.deleteData(sq.selectTable("OgrenciNo", "OgrenciBilgi", "Ad = '" + textBox2.Text + "'").Rows[0].ItemArray.GetValue(0).ToString());
-                MessageBox.Show("Kayıt başarıyla silindi.");
-                string temp = textBox1.Text;
-                textBox1.Text = "tas";
-                textBox1.Text = temp;
-            }
-            catch (Exception)
-            {
 
                 MessageBox.Show("Silmek için kayıt seçiniz.");
             }
@@ -184,14 +201,11 @@ namespace FinalProject
 
         private void button4_Click(object sender, EventArgs e)
         {
+            //Anasayfaya dönmemize yarar
             Form1 f1 = new Form1();
             f1.Show();
             this.Close();
         }
 
-        private void textBoxs_TextChanged(object sender, EventArgs e)
-        {
-            sc.ortalamaGridHesaplama(textBox4.Text, textBox5.Text, textBox6.Text, textBox8.Text);
-        }
     }
 }

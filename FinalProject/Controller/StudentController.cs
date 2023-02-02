@@ -14,6 +14,7 @@ namespace FinalProject.Controller
     {
         public DataTable matchBolumSqlResult(string a)
         {
+            //3 farklı tablo birleştirmek için bu kod satırı gerekli eğer ihtiyaç duyarsak diye
             List<int> ogrID = new List<int>();
             SqlProcess sp = new SqlProcess();
             var dataFirst = sp.selectTable("BolumID", "OgrenciBilgi");
@@ -48,12 +49,12 @@ namespace FinalProject.Controller
             DataTable dataThird = sp.selectTable("*", "OgrenciBilgi", sql);
             return dataThird;
         }
-        public int ogrenciOrtalamaHesapla(DataTable data)
+        public double ogrenciOrtalamaHesapla(DataTable data)
         {
-            int sum = 0;
+            double sum = 0;
             foreach (DataRow item in data.Rows)
             {
-                sum += Convert.ToInt32(item.ItemArray.GetValue(0).ToString());
+                sum += (Convert.ToDouble(item.ItemArray.GetValue(0).ToString()));
             }
             sum /= data.Rows.Count;
             return sum;
@@ -108,9 +109,13 @@ namespace FinalProject.Controller
             {
                 return 'M';
             }
-            else
+            else if(target == "Devamsız")
             {
                 return 'D';
+            }
+            else
+            {
+                return ' ';
             }
         }
         public Enum.Devamsizlik changeEnumtoString(string target)
@@ -130,12 +135,20 @@ namespace FinalProject.Controller
         }
         public string ortalamaGridHesaplama(string vize1 = "0", string vize2 = "0" , string final = "0" , string but = "0")
         {
-            var sum = (Convert.ToInt32(vize1) / 10 * 2) + (Convert.ToInt32(vize2) / 10 * 2) + (Convert.ToInt32(final) / 10 * 6);
-            if (sum < 50 || (Convert.ToInt32(final) < 50))
+            var sum = (Convert.ToDouble(vize1) / 10 * 2) + (Convert.ToDouble(vize2) / 10 * 2) + (Convert.ToDouble(final) / 10 * 6);
+            if ((sum < 50 || (Convert.ToInt32(final) < 50)) || (Convert.ToInt32(but) != 0))
             {
-                sum = (Convert.ToInt32(vize1) / 10 * 2) + (Convert.ToInt32(vize2) / 10 * 2) + (Convert.ToInt32(but) / 10 * 6);
+                sum = (Convert.ToDouble(vize1) / 10 * 2) + (Convert.ToDouble(vize2) / 10 * 2) + (Convert.ToDouble(but) / 10 * 6);
             }
             return sum.ToString();
+        }
+        public string nullExp(string target)
+        {
+            if (target == "")
+            {
+                target = "0";
+            }
+            return target;
         }
         public List<Ogrenci> fetchEntity()
         {

@@ -113,19 +113,20 @@ namespace FinalProject.Data
             command.Parameters.AddWithValue("@pButunleme", data[10]);
             command.Parameters.AddWithValue("@pOgrenciNo", data[6]);
             connection.Open();
-            try
+            //try
             {
                 command.ExecuteNonQuery();
             }
-            catch (Exception)
+            /*catch (Exception)
             {
                 System.Windows.Forms.MessageBox.Show("Hatalı format girişi.");
-            }
+            }*/
             connection.Close();
         }
         public void insertTable(List<string> data)
         {
             //Problemsiz
+            //Ekleme
             var connection = new SqlConnection(connectionString);
             connection.Open();
             string sqlString = "INSERT INTO OgrenciBilgi(Ad,Soyad,BolumID,KayitTarihi,OrtalamaNotu,DevamlilikDurumu ,[Vize-1],[Vize-2],Final,Bütünleme) VALUES (@pAd , @pSoyad , @pBolumID , @pKayitTarihi , @pOrtalamaNotu , @pDevamlilikDurumu, @pVize1, @pVize2, @pFinal, @pButunleme)";
@@ -137,10 +138,10 @@ namespace FinalProject.Data
             param.AddWithValue("@pKayitTarihi", Convert.ToDateTime(data[3]));
             param.AddWithValue("@pDevamlilikDurumu", data[4]);
             param.AddWithValue("@pOrtalamaNotu", data[5]);
-            param.AddWithValue("@pVize1", data[6]);
-            param.AddWithValue("@pVize2", data[7]);
-            param.AddWithValue("@pFinal", data[8]);
-            param.AddWithValue("@pButunleme", data[9]);
+            param.AddWithValue("@pVize1", data[7]);
+            param.AddWithValue("@pVize2", data[8]);
+            param.AddWithValue("@pFinal", data[9]);
+            param.AddWithValue("@pButunleme", data[10]);
             command.ExecuteNonQuery();
             connection.Close();
         }
